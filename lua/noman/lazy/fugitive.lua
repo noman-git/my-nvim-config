@@ -26,6 +26,10 @@ return {
                     vim.cmd.Git('add %')  -- Adds the current file
                 end, opts)
 
+                vim.keymap.set("n", "<leader>gc", function()
+                    vim.cmd.Git('commit')  -- Adds the current file
+                end, opts)
+
                 -- Other fugitive buffer keymaps (e.g., git push, pull)
                 vim.keymap.set("n", "<leader>p", function()
                     vim.cmd.Git('push')
