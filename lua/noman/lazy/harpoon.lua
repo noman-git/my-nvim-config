@@ -14,7 +14,7 @@ return {
         harpoon.setup()
 
         -- Key mappings for Harpoon
-        vim.keymap.set("n", "<leader>a", mark.add_file, { desc = "Add file to Harpoon" })
+        vim.keymap.set("n", "<leader>ha", mark.add_file, { desc = "Add file to Harpoon" })
         vim.keymap.set("n", "<C-e>", ui.toggle_quick_menu, { desc = "Toggle Harpoon quick menu" })
 
         vim.keymap.set("n", "<C-h>", function() ui.nav_file(1) end, { desc = "Navigate to file 1" })
