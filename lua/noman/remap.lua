@@ -15,10 +15,10 @@ vim.keymap.set("n", "<leader>zig", "<cmd>LspRestart<cr>")
 vim.keymap.set("x", "<leader>p", [["_dP]])
 
 -- next greatest remap ever : asbjornHaland
-vim.keymap.set({"n", "v"}, "<leader>y", [["+y]])
+vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
 vim.keymap.set("n", "<leader>Y", [["+Y]])
 
-vim.keymap.set({"n", "v"}, "<leader>d", [["_d]])
+vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
 
 -- This is going to get me cancelled
 vim.keymap.set("i", "<C-c>", "<Esc>")
@@ -35,7 +35,25 @@ vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
 
-vim.keymap.set("n", "<leader>pvc", ":!python3 -m venv venv<CR>", { desc = "Create virtual environment in current directory" })
+-- Horizontal split
+vim.keymap.set('n', '<leader>sh', '<C-w>s', { noremap = true, silent = true })
+-- Vertical split
+vim.keymap.set('n', '<leader>sv', '<C-w>v', { noremap = true, silent = true })
+
+-- Close current split
+vim.keymap.set('n', '<leader>sc', '<C-w>c', { noremap = true, silent = true })
+-- Close all except current
+vim.keymap.set('n', '<leader>so', '<C-w>o', { noremap = true, silent = true })
+
+-- Zoom in on current split (maximize)
+vim.keymap.set('n', 'Zz', '<C-w>_ | <C-w>|', { noremap = true, silent = true })
+
+-- Restore all splits to equal size
+vim.keymap.set('n', 'Zo', '<C-w>=', { noremap = true, silent = true })
+
+-- This is for creating a python env with name vevn and default global version
+vim.keymap.set("n", "<leader>pvc", ":!python3 -m venv venv<CR>",
+    { desc = "Create virtual environment in current directory" })
 
 -- This is for activating my venv
 vim.keymap.set('n', '<leader>pva', function()
@@ -51,4 +69,3 @@ vim.keymap.set(
 vim.keymap.set("n", "<leader><leader>", function()
     vim.cmd("so")
 end)
-
