@@ -1,6 +1,5 @@
 vim.g.mapleader = " "
 vim.keymap.set("n", "<leader>fe", vim.cmd.Ex)
-
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
@@ -51,7 +50,7 @@ vim.keymap.set('n', 'Zz', '<C-w>_ | <C-w>|', { noremap = true, silent = true })
 -- Restore all splits to equal size
 vim.keymap.set('n', 'Zo', '<C-w>=', { noremap = true, silent = true })
 
--- This is for creating a python env with name vevn and default global version
+-- This is for creating a python env with name venv and default global version
 vim.keymap.set("n", "<leader>pvc", ":!python3 -m venv venv<CR>",
     { desc = "Create virtual environment in current directory" })
 
@@ -60,11 +59,7 @@ vim.keymap.set('n', '<leader>pva', function()
     vim.cmd('!source venv/bin/activate')
 end, { desc = "Activate virtual env" })
 
-vim.keymap.set(
-    "n",
-    "<leader>ee",
-    "oif err != nil {<CR>}<Esc>Oreturn err<Esc>"
-)
+vim.keymap.set( "n", "<leader>pe", ":!python3 %<CR>")
 
 vim.keymap.set("n", "<leader><leader>", function()
     vim.cmd("so")
