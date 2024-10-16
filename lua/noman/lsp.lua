@@ -26,7 +26,7 @@ return {
         require("mason-lspconfig").setup({
             ensure_installed = {
                 "lua_ls",
-                "ruff",
+--                "ruff",
                 "pyright",
                 "gopls",
             },
@@ -35,6 +35,22 @@ return {
                     require("lspconfig")[server_name].setup {
                         capabilities = capabilities
                     }
+                end,
+
+                zls = function()
+                    local lspconfig = require("lspconfig")
+                    lspconfig.zls.setup({
+                        root_dir = lspconfig.util.root_pattern(".git", "build.zig", "zls.json"),
+                        settings = {
+                            zls = {
+                                enable_inlay_hints = true,
+                                enable_snippets = true,
+                                warn_style = true,
+                            },
+                        },
+                    })
+                    vim.g.zig_fmt_parse_errors = 0
+                    vim.g.zig_fmt_autosave = 0
                 end,
                 ["lua_ls"] = function()
                     local lspconfig = require("lspconfig")
@@ -53,54 +69,23 @@ return {
             }
         })
         -- Mason-tool-installer setup for non-LSP tools
-        --        require("mason-tool-installer").setup({
-        --            ensure_installed = {
-        --                "black",         -- Python formatter
-        --                "yapf",          -- Optional: Another Python formatter if you want
-        --            },
-        --            auto_update = true,  -- Automatically update installed tools
-        --            run_on_start = true, -- Ensure tools are installed when Neovim starts
-        --        })
-
-        -- Ruff setup
-        require("lspconfig").ruff.setup({
-            init_options = {
-                settings = {
-                    logLevel = "debug" -- Ruff language server settings go here (if needed)
-                }
-            },
-            trace = "messages"
-        })
-
-        -- Disable hover from Ruff in favor of Pyright
-        vim.api.nvim_create_autocmd("LspAttach", {
-            group = vim.api.nvim_create_augroup('lsp_attach_disable_ruff_hover', { clear = true }),
-            callback = function(args)
-                local client = vim.lsp.get_client_by_id(args.data.client_id)
-                if client and client.name == 'ruff' then
-                    client.server_capabilities.hoverProvider = false
-                end
-            end,
-            desc = 'LSP: Disable hover capability from Ruff',
-        })
-
-        -- Pyright setup to defer to Ruff for linting and organizing imports
-        require("lspconfig").pyright.setup {
-            settings = {
-                pyright = {
-                    disableOrganizeImports = true, -- Use Ruff for organizing imports
-                },
-                python = {
-                    analysis = {
-                        ignore = { '*' }, -- Disable Pyright linting and defer to Ruff
-                    },
-                },
-            },
-        }
+--        require("mason-tool-installer").setup({
+--            ensure_installed = {
+--                "black",         -- Python formatter
+--                "yapf",          -- Optional: Another Python formatter if you want
+--            },
+--            auto_update = true,  -- Automatically update installed tools
+--            run_on_start = true, -- Ensure tools are installed when Neovim starts
+--        })
 
         local cmp_select = { behavior = cmp.SelectBehavior.Select }
 
         cmp.setup({
+            snippet = {
+                expand = function(args)
+                    require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+                end,
+            },
             mapping = cmp.mapping.preset.insert({
                 ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
                 ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
@@ -108,11 +93,11 @@ return {
                 ["<C-Space>"] = cmp.mapping.complete(),
             }),
             sources = cmp.config.sources({
-                    { name = 'nvim_lsp' },
-                },
-                {
-                    { name = 'buffer' },
-                })
+                { name = 'nvim_lsp' },
+                { name = 'luasnip' }, -- For luasnip users.
+            }, {
+                { name = 'buffer' },
+            })
         })
 
         vim.diagnostic.config({
