@@ -52,51 +52,43 @@ return {
                 end,
             }
         })
-        -- Mason-tool-installer setup for non-LSP tools
-        --        require("mason-tool-installer").setup({
-        --            ensure_installed = {
-        --                "black",         -- Python formatter
-        --                "yapf",          -- Optional: Another Python formatter if you want
-        --            },
-        --            auto_update = true,  -- Automatically update installed tools
-        --            run_on_start = true, -- Ensure tools are installed when Neovim starts
-        --        })
-
-        -- Ruff setup
-        require("lspconfig").ruff.setup({
-            init_options = {
-                settings = {
-                    logLevel = "debug" -- Ruff language server settings go here (if needed)
-                }
-            },
-            trace = "messages"
-        })
-
-        -- Disable hover from Ruff in favor of Pyright
-        vim.api.nvim_create_autocmd("LspAttach", {
-            group = vim.api.nvim_create_augroup('lsp_attach_disable_ruff_hover', { clear = true }),
-            callback = function(args)
-                local client = vim.lsp.get_client_by_id(args.data.client_id)
-                if client and client.name == 'ruff' then
-                    client.server_capabilities.hoverProvider = false
-                end
-            end,
-            desc = 'LSP: Disable hover capability from Ruff',
-        })
-
-        -- Pyright setup to defer to Ruff for linting and organizing imports
-        require("lspconfig").pyright.setup {
+        -- Configure Pyright to defer to Ruff for linting and import organization
+        require('lspconfig').pyright.setup {
             settings = {
-                pyright = {
-                    disableOrganizeImports = true, -- Use Ruff for organizing imports
-                },
                 python = {
                     analysis = {
-                        ignore = { '*' }, -- Disable Pyright linting and defer to Ruff
+                        autoSearchPaths = true,
+                        useLibraryCodeForTypes = true,
+                        ignore = { '*' }, -- Ignore Pyright's analysis to use Ruff for linting
                     },
                 },
             },
+            capabilities = capabilities,
         }
+
+        -- Configure Ruff
+        require('lspconfig').ruff.setup({
+            init_options = {
+                settings = {
+                    settings = {
+                        lint = {
+                            select = { "F", "E", "W", "C", "N", "Q", "B" }
+                        }
+                    }, -- Enable logging if needed
+                },
+            },
+            capabilities = capabilities,
+        })
+
+        -- Mason-tool-installer setup for non-LSP tools
+        require("mason-tool-installer").setup({
+            ensure_installed = {
+                "yapf",
+            },
+            auto_update = true,  -- Automatically update installed tools
+            run_on_start = true, -- Ensure tools are installed when Neovim starts
+        })
+
 
         local cmp_select = { behavior = cmp.SelectBehavior.Select }
 
