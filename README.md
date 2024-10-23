@@ -1,2 +1,1 @@
-This is a personal config I have created by modifying [ThePrimeAgen's](https://github.com/ThePrimeagen/init.lua) config.
-Still figuring out a lot of stuff, and changing the remaps.
+My personal neovim config using. Pre-requisites are npm, and ripgrep. I don't remember any others but its not too hard to install anyways.

@@ -28,8 +28,7 @@ return {
                 "lua_ls",
                 "ruff",
                 "pyright",
-                "gopls",
-            },
+                "gopls", },
             handlers = {
                 function(server_name) -- default handler (optional)
                     require("lspconfig")[server_name].setup {
@@ -52,14 +51,14 @@ return {
                 end,
             }
         })
-        -- Configure Pyright to defer to Ruff for linting and import organization
+        --Configure Pyright to defer to Ruff for linting and import organization
         require('lspconfig').pyright.setup {
             settings = {
                 python = {
                     analysis = {
                         autoSearchPaths = true,
                         useLibraryCodeForTypes = true,
-                        ignore = { '*' }, -- Ignore Pyright's analysis to use Ruff for linting
+                        ignore = { '*' },         -- Ignore Pyright's analysis to use Ruff for linting
                     },
                 },
             },
@@ -72,7 +71,7 @@ return {
                 settings = {
                     settings = {
                         lint = {
-                            select = { "F", "E", "W", "C", "N", "Q", "B" }
+                            select = { "F", "E", "W", "C", "N", "Q", "B", "D" }
                         }
                     }, -- Enable logging if needed
                 },
@@ -84,6 +83,7 @@ return {
         require("mason-tool-installer").setup({
             ensure_installed = {
                 "yapf",
+                "pydocstyle",
             },
             auto_update = true,  -- Automatically update installed tools
             run_on_start = true, -- Ensure tools are installed when Neovim starts
