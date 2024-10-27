@@ -17,7 +17,13 @@ return {
                     "*.pyc",
                     "*.pyo",
                     "node_modules/",
-                    "*.egg-info/"
+                    "*.egg-info/",
+                    "*.jpg",
+                    "*.jpeg",
+                    "*.png",
+                    "*.webp",
+                    "*.mp4",
+                    "*.mkv"
                     -- Add more patterns as needed
                 }
             }
