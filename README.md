@@ -1,1 +1,1 @@
-My personal neovim config using. Pre-requisites are npm, and ripgrep. I don't remember any others but its not too hard to install anyways.
+My personal neovim config using. Pre-requisites are npm, ripgrep, lua. But full config requires luarocks with imagemagick installed and python with a virtualenv called neovim at ~/.vitualenvs/
