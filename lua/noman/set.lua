@@ -1,5 +1,11 @@
 vim.g.python3_host_prog = vim.fn.expand("~/.virtualenvs/neovim/bin/python3")
 vim.opt.guicursor = ""
+vim.g.clipboard = {
+    name = 'wl-clipboard',
+    copy = { ['+'] = 'wl-copy', ['*'] = 'wl-copy' },
+    paste = { ['+'] = 'wl-paste', ['*'] = 'wl-paste' },
+    cache_enabled = 1,
+}
 
 vim.opt.nu = true
 vim.opt.relativenumber = true
