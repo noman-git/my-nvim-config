@@ -1,4 +1,5 @@
 vim.g.python3_host_prog = "/home/noman/.pyenv/versions/neovim/bin/python3"
+vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
 vim.opt.guicursor = ""
 vim.g.clipboard = {
     name = 'wl-clipboard',
