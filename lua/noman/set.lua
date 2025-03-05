@@ -1,4 +1,4 @@
-vim.g.python3_host_prog = vim.fn.expand("~/.virtualenvs/neovim/bin/python3")
+vim.g.python3_host_prog = "/home/noman/.pyenv/versions/neovim/bin/python3"
 vim.opt.guicursor = ""
 vim.g.clipboard = {
     name = 'wl-clipboard',
