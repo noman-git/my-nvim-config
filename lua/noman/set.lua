@@ -1,6 +1,5 @@
 vim.g.python3_host_prog = "/home/noman/.pyenv/versions/neovim/bin/python3"
 vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
-vim.opt.guicursor = ""
 vim.g.clipboard = {
     name = 'wl-clipboard',
     copy = { ['+'] = 'wl-copy', ['*'] = 'wl-copy' },
@@ -8,6 +7,7 @@ vim.g.clipboard = {
     cache_enabled = 1,
 }
 
+vim.opt.guicursor = ""
 vim.opt.nu = true
 vim.opt.relativenumber = true
 
@@ -28,7 +28,7 @@ vim.opt.undofile = true
 vim.opt.hlsearch = false
 vim.opt.incsearch = true
 
-vim.opt.termguicolors = false
+vim.opt.termguicolors = true
 
 vim.opt.scrolloff = 8
 vim.opt.signcolumn = "yes"
