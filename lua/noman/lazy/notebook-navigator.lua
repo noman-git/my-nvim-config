@@ -1,22 +1,37 @@
 return {
   "GCBallesteros/NotebookNavigator.nvim",
   keys = {
-    { "]h", function() require("notebook-navigator").move_cell "d" end, desc = "Move to next cell" },
-    { "[h", function() require("notebook-navigator").move_cell "u" end, desc = "Move to previous cell" },
-    { "<leader>X", function() require("notebook-navigator").run_cell() end, desc = "Run current cell" },
-    { "<leader>x", function() require("notebook-navigator").run_and_move() end, desc = "Run cell and move" },
+    {
+      "]h",
+      function()
+        require("notebook-navigator").move_cell "d"
+      end,
+      desc = "Move Cell Down",
+    },
+    {
+      "[h",
+      function()
+        require("notebook-navigator").move_cell "u"
+      end,
+      desc = "Move Cell Up",
+    },
+    { ",x", "<cmd>lua require('notebook-navigator').run_cell()<cr>", desc = "Run Cell" },
+    { "]x", "<cmd>lua require('notebook-navigator').run_and_move()<cr>", desc = "Run Cell & Move" },
+    { "]u", "<cmd>lua require('notebook-navigator').swap_cell('d')<cr>", desc = "Run Cell & Move" },
+    { "[u", "<cmd>lua require('notebook-navigator').swap_cell('u')<cr>", desc = "Run Cell & Move" },
   },
   dependencies = {
     "echasnovski/mini.comment",
+    "hkupty/iron.nvim",
     "anuvyklack/hydra.nvim",
-    "vigemus/iron.nvim", -- Use Magma as REPL provider
   },
   event = "VeryLazy",
   config = function()
-    require("notebook-navigator").setup({
-      activate_hydra_keys = "<leader>hk", -- Activate Hydra with <leader>h
+    local nn = require "notebook-navigator"
+    nn.setup({
+      activate_hydra_keys = "<leader>hk",
       repl_provider = "iron",
+      hydra_keys = { comment = nil },
     })
   end,
 }
-

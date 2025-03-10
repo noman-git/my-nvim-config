@@ -1,3 +1,4 @@
+-- I cannot get this to work in Kitty so I am just using terminal bg wallpaper :(((
 function ColorMyPencils(color)
 	color = color or "rose-pine-moon"
 	vim.cmd.colorscheme(color)

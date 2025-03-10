@@ -1,5 +1,5 @@
 return {
-  "vigemus/iron.nvim",
+  "hkupty/iron.nvim",
   config = function()
     local iron = require "iron.core"
     iron.setup({
@@ -7,7 +7,7 @@ return {
         scratch_repl = true,
         repl_definition = {
           python = {
-            command = { "python" },
+            command = { "ipython" },
             format = require("iron.fts.common").bracketed_paste,
           },
         },
