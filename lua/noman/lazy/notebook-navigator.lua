@@ -9,12 +9,13 @@ return {
   dependencies = {
     "echasnovski/mini.comment",
     "anuvyklack/hydra.nvim",
-    "benlubas/molten-nvim", -- Use Magma as REPL provider
+    "vigemus/iron.nvim", -- Use Magma as REPL provider
   },
   event = "VeryLazy",
   config = function()
     require("notebook-navigator").setup({
       activate_hydra_keys = "<leader>hk", -- Activate Hydra with <leader>h
+      repl_provider = "iron",
     })
   end,
 }
