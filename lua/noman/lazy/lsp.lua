@@ -28,7 +28,9 @@ return {
                 "lua_ls",
                 "ruff",
                 "pyright",
-                "gopls", },
+                "gopls",
+                "jsonls",
+                "yamlls", },
             handlers = {
                 function(server_name) -- default handler (optional)
                     require("lspconfig")[server_name].setup {
