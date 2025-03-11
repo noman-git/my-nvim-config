@@ -21,12 +21,16 @@ return {
             {},
             vim.lsp.protocol.make_client_capabilities(),
             cmp_lsp.default_capabilities())
+        capabilities.textDocument.foldingRange = {
+            dynamicRegistration = false,
+            lineFoldingOnly = true,
+        }
 
         require("fidget").setup({})
         require("mason-lspconfig").setup({
             ensure_installed = {
                 "lua_ls",
-                "ruff",
+                -- "ruff",
                 "pyright",
                 "gopls",
                 "jsonls",
@@ -60,7 +64,7 @@ return {
                     analysis = {
                         autoSearchPaths = true,
                         useLibraryCodeForTypes = true,
-                        ignore = { '*' },         -- Ignore Pyright's analysis to use Ruff for linting
+                        -- ignore = { '*' },         -- Ignore Pyright's analysis to use Ruff for linting
                     },
                 },
             },
@@ -68,18 +72,18 @@ return {
         }
 
         -- Configure Ruff
-        require('lspconfig').ruff.setup({
-            init_options = {
-                settings = {
-                    settings = {
-                        lint = {
-                            select = { "F", "E", "W", "C", "N", "Q", "B", "D" }
-                        }
-                    }, -- Enable logging if needed
-                },
-            },
-            capabilities = capabilities,
-        })
+        -- require('lspconfig').ruff.setup({
+        --     init_options = {
+        --         settings = {
+        --             settings = {
+        --                 lint = {
+        --                     select = { "F", "E", "W", "C", "N", "Q", "B", "D" }
+        --                 }
+        --             }, -- Enable logging if needed
+        --         },
+        --     },
+        --     capabilities = capabilities,
+        -- })
 
         -- Mason-tool-installer setup for non-LSP tools
         require("mason-tool-installer").setup({
