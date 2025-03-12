@@ -88,8 +88,7 @@ return {
         -- Mason-tool-installer setup for non-LSP tools
         require("mason-tool-installer").setup({
             ensure_installed = {
-                "yapf",
-                "pydocstyle",
+                "black",
             },
             auto_update = true,  -- Automatically update installed tools
             run_on_start = true, -- Ensure tools are installed when Neovim starts

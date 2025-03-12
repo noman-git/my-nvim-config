@@ -9,7 +9,7 @@ return {
 
         null_ls.setup({
             sources = {
-                null_ls.builtins.formatting.yapf, -- Yapf for Python formatting
+                null_ls.builtins.formatting.black
             },
             on_attach = function(client, bufnr)
                 if client.supports_method("textDocument/formatting") then
