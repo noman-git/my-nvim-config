@@ -1,11 +1,24 @@
 vim.g.python3_host_prog = "/home/noman/.pyenv/versions/neovim/bin/python3"
 vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
 vim.g.clipboard = {
-    name = 'wl-clipboard',
-    copy = { ['+'] = 'wl-copy', ['*'] = 'wl-copy' },
-    paste = { ['+'] = 'wl-paste', ['*'] = 'wl-paste' },
-    cache_enabled = 1,
+  name = 'xclip',
+  copy = {
+    ['+'] = 'xclip -selection clipboard',
+    ['*'] = 'xclip -selection primary',
+  },
+  paste = {
+    ['+'] = 'xclip -selection clipboard -o',
+    ['*'] = 'xclip -selection primary -o',
+  },
+  cache_enabled = 1,
 }
+
+-- vim.g.clipboard = {
+--     name = 'wl-clipboard',
+--     copy = { ['+'] = 'wl-copy', ['*'] = 'wl-copy' },
+--     paste = { ['+'] = 'wl-paste', ['*'] = 'wl-paste' },
+--     cache_enabled = 1,
+-- }
 
 vim.opt.guicursor = ""
 vim.opt.nu = true
