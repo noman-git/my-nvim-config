@@ -30,7 +30,7 @@ return {
         require("mason-lspconfig").setup({
             ensure_installed = {
                 "lua_ls",
-                -- "ruff",
+                "ruff",
                 "pyright",
                 "gopls",
                 "jsonls",
@@ -72,18 +72,23 @@ return {
         }
 
         -- Configure Ruff
-        -- require('lspconfig').ruff.setup({
-        --     init_options = {
-        --         settings = {
-        --             settings = {
-        --                 lint = {
-        --                     select = { "F", "E", "W", "C", "N", "Q", "B", "D" }
-        --                 }
-        --             }, -- Enable logging if needed
-        --         },
-        --     },
-        --     capabilities = capabilities,
-        -- })
+        require('lspconfig').ruff.setup({
+            init_options = {
+                settings = {
+                    settings = {
+                        organizeImports = true,
+                        showSyntaxErrors = true,
+                        disableRuleComment = {
+                            enable = false
+                        },
+                        lint = {
+                            select = { "F", "E", "W", "C", "N", "Q", "B", "D" }
+                        }
+                    }, -- Enable logging if needed
+                },
+            },
+            capabilities = capabilities,
+        })
 
         -- Mason-tool-installer setup for non-LSP tools
         require("mason-tool-installer").setup({
