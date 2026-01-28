@@ -1,13 +1,31 @@
 return {
     "nvim-telescope/telescope.nvim",
 
-    tag = "0.1.5",
+    tag = "v0.2.0",
 
     dependencies = {
         "nvim-lua/plenary.nvim"
     },
 
     config = function()
+    local actions = require('telescope.actions')
+    local action_state = require('telescope.actions.state')
+
+    -- Smart send to quickfix
+    local function smart_send_to_qflist(prompt_bufnr)
+        local picker = action_state.get_current_picker(prompt_bufnr)
+        local selections = picker:get_multi_selection()
+
+        if #selections > 0 then
+            -- Send only selected entries
+            actions.send_selected_to_qflist(prompt_bufnr)
+        else
+            -- Send all entries
+            actions.send_to_qflist(prompt_bufnr)
+        end
+        actions.open_qflist(prompt_bufnr)
+    end
+
         require('telescope').setup({
             defaults = {
                 file_ignore_patterns = {
@@ -25,7 +43,19 @@ return {
                     "*.mp4",
                     "*.mkv"
                     -- Add more patterns as needed
-                }
+                },
+                mappings = {
+                    i = {
+                        ["<Tab>"] = actions.toggle_selection + actions.move_selection_next,
+                        ["<S-Tab>"] = actions.toggle_selection + actions.move_selection_previous,
+                        ["<C-q>"] = smart_send_to_qflist,
+                    },
+                    n = {
+                        ["<Tab>"] = actions.toggle_selection + actions.move_selection_next,
+                        ["<S-Tab>"] = actions.toggle_selection + actions.move_selection_previous,
+                        ["<C-q>"] = smart_send_to_qflist,
+                    },
+                },
             }
         })
 

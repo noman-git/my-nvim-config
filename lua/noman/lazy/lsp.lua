@@ -28,66 +28,56 @@ return {
 
         require("fidget").setup({})
         require("mason-lspconfig").setup({
-            ensure_installed = {
-                "lua_ls",
-                "ruff",
-                "pyright",
-                "gopls",
-                "jsonls",
-                "yamlls", },
+            ensure_installed = { "lua_ls", "ruff", "pyright", "jsonls", "yamlls" },
             handlers = {
-                function(server_name) -- default handler (optional)
-                    require("lspconfig")[server_name].setup {
-                        capabilities = capabilities
-                    }
+                function(server_name) -- default handler
+                    vim.lsp.config(server_name, { capabilities = capabilities })
                 end,
                 ["lua_ls"] = function()
-                    local lspconfig = require("lspconfig")
-                    lspconfig.lua_ls.setup {
+                    vim.lsp.config("lua_ls", {
                         capabilities = capabilities,
                         settings = {
                             Lua = {
                                 runtime = { version = "Lua 5.4" },
                                 diagnostics = {
                                     globals = { "bit", "vim", "it", "describe", "before_each", "after_each" },
-                                }
-                            }
-                        }
-                    }
+                                },
+                workspace = {
+                    library = vim.api.nvim_get_runtime_file("", true),
+                    checkThirdParty = false,
+                },
+                telemetry = { enable = false },
+                            },
+                        },
+                    })
                 end,
-            }
+            },
         })
         --Configure Pyright to defer to Ruff for linting and import organization
-        require('lspconfig').pyright.setup {
+        vim.lsp.config("pyright", {
+            capabilities = capabilities,
             settings = {
                 python = {
                     analysis = {
                         autoSearchPaths = true,
                         useLibraryCodeForTypes = true,
-                        -- ignore = { '*' },         -- Ignore Pyright's analysis to use Ruff for linting
                     },
                 },
             },
-            capabilities = capabilities,
-        }
+        })
 
-        -- Configure Ruff
-        require('lspconfig').ruff.setup({
+        vim.lsp.config("ruff", {
+            capabilities = capabilities,
             init_options = {
                 settings = {
                     settings = {
                         organizeImports = true,
                         showSyntaxErrors = true,
-                        disableRuleComment = {
-                            enable = false
-                        },
-                        lint = {
-                            select = { "F", "E", "W", "C", "N", "Q", "B", "D" }
-                        }
-                    }, -- Enable logging if needed
+                        disableRuleComment = { enable = false },
+                        lint = { select = { "F","E","W","C","N","Q","B","D" } },
+                    },
                 },
             },
-            capabilities = capabilities,
         })
 
         -- Mason-tool-installer setup for non-LSP tools

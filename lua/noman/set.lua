@@ -1,24 +1,22 @@
-vim.g.python3_host_prog = "/home/noman/.pyenv/versions/neovim/bin/python3"
 vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
-vim.g.clipboard = {
-  name = 'xclip',
-  copy = {
-    ['+'] = 'xclip -selection clipboard',
-    ['*'] = 'xclip -selection primary',
-  },
-  paste = {
-    ['+'] = 'xclip -selection clipboard -o',
-    ['*'] = 'xclip -selection primary -o',
-  },
-  cache_enabled = 1,
-}
-
--- vim.g.clipboard = {
---     name = 'wl-clipboard',
---     copy = { ['+'] = 'wl-copy', ['*'] = 'wl-copy' },
---     paste = { ['+'] = 'wl-paste', ['*'] = 'wl-paste' },
---     cache_enabled = 1,
--- }
+vim.g.python3_host_prog = "/home/noman/.pyenv/versions/neovim/bin/python3"
+if vim.fn.has("unix") == 1 and os.getenv("SSH_CONNECTION") then
+  -- remote session: use lemonade
+  vim.g.clipboard = {
+    name = "lemonade",
+    copy = { ["+"] = {"lemonade","copy"}, ["*"] = {"lemonade","copy"} },
+    paste = { ["+"] = {"lemonade","paste"}, ["*"] = {"lemonade","paste"} },
+    cache_enabled = 0,
+  }
+else
+  -- local: use wl-clipboard
+  vim.g.clipboard = {
+    name = "wl-clipboard",
+    copy = { ["+"] = {"wl-copy"}, ["*"] = {"wl-copy"} },
+    paste = { ["+"] = {"wl-paste","--no-newline"}, ["*"] = {"wl-paste","--no-newline"} },
+    cache_enabled = 1,
+  }
+end
 
 vim.opt.guicursor = ""
 vim.opt.nu = true
@@ -49,5 +47,5 @@ vim.opt.isfname:append("@-@")
 
 vim.opt.updatetime = 50
 
-vim.opt.colorcolumn = "100"
+-- vim.opt.colorcolumn = "100"
 
