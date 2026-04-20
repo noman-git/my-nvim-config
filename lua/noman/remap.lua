@@ -62,3 +62,6 @@ vim.keymap.set( "n", "<leader>pe", ":!python3 %<CR>")
 vim.keymap.set("n", "<leader><leader>", function()
     vim.cmd("so")
 end)
+
+-- Terminal mode: double-Esc to drop into normal mode (single Esc still reaches the TUI)
+vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
