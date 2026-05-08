@@ -2,6 +2,13 @@ return {
     "coder/claudecode.nvim",
     dependencies = { "folke/snacks.nvim" },
     opts = {
+        focus_after_send = true,
+        diff_opts = {
+            layout = "vertical",
+            open_in_new_tab = true,
+            hide_terminal_in_new_tab = false,
+            keep_terminal_focus = false,
+        },
         models = {
             { name = "Claude Opus 4.7 (Latest)",   value = "opus" },
             { name = "Claude Sonnet 4.6 (Latest)", value = "sonnet" },
@@ -23,7 +30,7 @@ return {
             desc = "Add file",
             ft = { "NvimTree", "neo-tree", "oil", "minifiles", "netrw" },
         },
-        { "<leader>aa", "<cmd>ClaudeCodeDiffAccept<cr>", desc = "Accept diff" },
-        { "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr>",   desc = "Deny diff" },
+        { "<leader>aa", "<cmd>ClaudeCodeDiffAccept<cr><cmd>ClaudeCodeFocus<cr>", desc = "Accept diff" },
+        { "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr><cmd>ClaudeCodeFocus<cr>",   desc = "Deny diff" },
     },
 }
