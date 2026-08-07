@@ -11,14 +11,28 @@ return {
 
         -- List of parsers you might want to install on-demand
         local all_parsers = {
-            "bash", "c", "go", "javascript", "json",
-            "lua", "markdown", "markdown_inline", "python",
-            "query", "vim", "vimdoc", "yaml",
+            "bash", "c", "go", "gomod", "gosum", "gotmpl", "gowork",
+            "javascript", "json", "lua", "markdown", "markdown_inline",
+            "python", "query", "vim", "vimdoc", "yaml",
         }
 
+        -- Parsers this nvim-treesitter build actually knows about. Asking it to
+        -- install anything outside this set logs "skipping unsupported language",
+        -- which every plugin UI buffer (fidget, qf, netrw, lazy, telescope...) would
+        -- otherwise trigger on each FileType event.
+        local available = {}
+        for _, parser in ipairs(ts.get_available()) do
+            available[parser] = true
+        end
+
         -- Setup Treesitter features for a buffer
-        local function setup_buffer(buf, lang)
-            if not lang then return end
+        local function setup_buffer(buf, ft)
+            if not ft or ft == "" then return end
+
+            -- Filetype is not the parser name: help -> vimdoc, sh -> bash, tex -> latex.
+            -- Passing the raw filetype meant those buffers got no highlighting at all.
+            local lang = vim.treesitter.language.get_lang(ft) or ft
+            if not available[lang] then return end
 
             -- Install parser non-blocking
             pcall(ts.install, { lang }, { summary = true })

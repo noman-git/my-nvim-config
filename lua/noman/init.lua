@@ -44,16 +44,32 @@ autocmd('LspAttach', {
     group = TheNomanGroup,
     callback = function(e)
         local opts = { buffer = e.buf }
-        vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
-        vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
+        -- gd and K are defined globally in remap.lua, not here. Defining them on
+        -- attach leaves a window where the builtins run instead: builtin gd is a
+        -- lexical "local declaration" search that happily lands on an unrelated
+        -- same-named symbol in the current file, and says nothing about it.
         vim.keymap.set("n", "<leader>vws", function() vim.lsp.buf.workspace_symbol() end, opts)
         vim.keymap.set("n", "<leader>vd", function() vim.diagnostic.open_float() end, opts)
         vim.keymap.set("n", "<leader>vca", function() vim.lsp.buf.code_action() end, opts)
         vim.keymap.set("n", "<leader>vrr", function() vim.lsp.buf.references() end, opts)
         vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end, opts)
         vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
-        vim.keymap.set("n", "[d", function() vim.diagnostic.goto_next() end, opts)
-        vim.keymap.set("n", "]d", function() vim.diagnostic.goto_prev() end, opts)
+        -- No [d/]d here: nvim ships them (plus [D/]D for first/last) built on
+        -- vim.diagnostic.jump, pointing the right way round. Overriding them only
+        -- reintroduced the inverted, deprecated goto_prev/goto_next pair.
+
+        local client = vim.lsp.get_client_by_id(e.data.client_id)
+        if client and client.name == "ruff" then
+            -- K should give a type signature from basedpyright, not a ruff rule blurb
+            client.server_capabilities.hoverProvider = false
+        end
+        if client and client:supports_method("textDocument/inlayHint") then
+            vim.lsp.inlay_hint.enable(true, { bufnr = e.buf })
+            vim.keymap.set("n", "<leader>vh", function()
+                local on = vim.lsp.inlay_hint.is_enabled({ bufnr = e.buf })
+                vim.lsp.inlay_hint.enable(not on, { bufnr = e.buf })
+            end, opts)
+        end
     end
 })
 
