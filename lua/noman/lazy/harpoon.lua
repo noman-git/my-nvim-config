@@ -1,5 +1,6 @@
 return {
     "ThePrimeagen/harpoon",
+    branch = "harpoon2",
 
     dependencies = {
         "nvim-lua/plenary.nvim"
@@ -7,25 +8,24 @@ return {
 
     config = function()
         local harpoon = require("harpoon")
-        local mark = require("harpoon.mark")
-        local ui = require("harpoon.ui")
 
-        -- Setup Harpoon
-        harpoon.setup()
+        -- Required on harpoon2: setup() is what installs the autocmds that keep
+        -- list positions in sync as buffers change.
+        harpoon:setup()
 
-        -- Key mappings for Harpoon
-        vim.keymap.set("n", "<leader>ha", mark.add_file, { desc = "Add file to Harpoon" })
-        vim.keymap.set("n", "<C-e>", ui.toggle_quick_menu, { desc = "Toggle Harpoon quick menu" })
+        vim.keymap.set("n", "<leader>ha", function() harpoon:list():add() end,
+            { desc = "Add file to Harpoon" })
+        vim.keymap.set("n", "<C-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end,
+            { desc = "Toggle Harpoon quick menu" })
 
-        vim.keymap.set("n", "<C-h>", function() ui.nav_file(1) end, { desc = "Navigate to file 1" })
-        vim.keymap.set("n", "<C-t>", function() ui.nav_file(2) end, { desc = "Navigate to file 2" })
-        vim.keymap.set("n", "<C-n>", function() ui.nav_file(3) end, { desc = "Navigate to file 3" })
-        vim.keymap.set("n", "<C-s>", function() ui.nav_file(4) end, { desc = "Navigate to file 4" })
-
-        vim.keymap.set("n", "<leader><C-h>", function() harpoon.mark.set_index(1) end, { desc = "Set file 1 in Harpoon" })
-        vim.keymap.set("n", "<leader><C-t>", function() harpoon.mark.set_index(2) end, { desc = "Set file 2 in Harpoon" })
-        vim.keymap.set("n", "<leader><C-n>", function() harpoon.mark.set_index(3) end, { desc = "Set file 3 in Harpoon" })
-        vim.keymap.set("n", "<leader><C-s>", function() harpoon.mark.set_index(4) end, { desc = "Set file 4 in Harpoon" })
+        local nav_keys = { "<C-h>", "<C-t>", "<C-n>", "<C-s>" }
+        for idx, key in ipairs(nav_keys) do
+            vim.keymap.set("n", key, function() harpoon:list():select(idx) end,
+                { desc = "Navigate to file " .. idx })
+            -- replace_at with no item argument defaults to the current buffer, which
+            -- is what the old harpoon1 mark.set_current_at did.
+            vim.keymap.set("n", "<leader>" .. key, function() harpoon:list():replace_at(idx) end,
+                { desc = "Set file " .. idx .. " in Harpoon" })
+        end
     end
 }
-

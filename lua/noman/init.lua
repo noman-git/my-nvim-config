@@ -27,7 +27,7 @@ autocmd('TextYankPost', {
     group = yank_group,
     pattern = '*',
     callback = function()
-        vim.highlight.on_yank({
+        vim.hl.on_yank({
             higroup = 'IncSearch',
             timeout = 40,
         })
@@ -37,7 +37,14 @@ autocmd('TextYankPost', {
 autocmd({"BufWritePre"}, {
     group = TheNomanGroup,
     pattern = "*",
-    command = [[%s/\s\+$//e]],
+    -- Save and restore the view: a bare :%s leaves the cursor wherever the last
+    -- substitution landed, so saving from the bottom of a file threw you to
+    -- whichever line happened to have trailing whitespace.
+    callback = function()
+        local view = vim.fn.winsaveview()
+        vim.cmd([[keeppatterns %s/\s\+$//e]])
+        vim.fn.winrestview(view)
+    end,
 })
 
 autocmd('LspAttach', {
@@ -65,7 +72,10 @@ autocmd('LspAttach', {
         end
         if client and client:supports_method("textDocument/inlayHint") then
             vim.lsp.inlay_hint.enable(true, { bufnr = e.buf })
-            vim.keymap.set("n", "<leader>vh", function()
+            -- <leader>vi, not <leader>vh: telescope owns <leader>vh globally for
+            -- help_tags, and a buffer-local map here shadowed it in every buffer
+            -- with a server attached, which is nearly all of them.
+            vim.keymap.set("n", "<leader>vi", function()
                 local on = vim.lsp.inlay_hint.is_enabled({ bufnr = e.buf })
                 vim.lsp.inlay_hint.enable(not on, { bufnr = e.buf })
             end, opts)

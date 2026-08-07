@@ -3,8 +3,10 @@ return {
     "iamcco/markdown-preview.nvim",
     cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
     ft = { "markdown" },
+    -- executable() returns 0 or 1, and 0 is truthy in Lua, so these must compare
+    -- against 1 explicitly or the npx branch is taken unconditionally.
     build = function(plugin)
-        if vim.fn.executable "npx" then
+        if vim.fn.executable("npx") == 1 then
             vim.cmd("!cd " .. plugin.dir .. " && cd app && npx --yes yarn install")
         else
             vim.cmd [[Lazy load markdown-preview.nvim]]
@@ -12,6 +14,6 @@ return {
         end
     end,
     init = function()
-        if vim.fn.executable "npx" then vim.g.mkdp_filetypes = { "markdown" } end
+        if vim.fn.executable("npx") == 1 then vim.g.mkdp_filetypes = { "markdown" } end
     end,
 }

@@ -1,9 +1,10 @@
 return {
     "neovim/nvim-lspconfig",
     dependencies = {
-        "williamboman/mason.nvim",
-        "williamboman/mason-lspconfig.nvim",
-        "WhoIsSethDaniel/mason-tool-installer.nvim",
+        -- mason moved to the mason-org org; the williamboman paths only still
+        -- resolve through GitHub's redirect.
+        "mason-org/mason.nvim",
+        "mason-org/mason-lspconfig.nvim",
         "hrsh7th/cmp-nvim-lsp",
         "hrsh7th/cmp-buffer",
         "hrsh7th/cmp-path",
@@ -167,17 +168,43 @@ return {
             }),
             sources = cmp.config.sources({
                     { name = 'nvim_lsp' },
+                    { name = 'path' },
                 },
                 {
                     { name = 'buffer' },
                 })
         })
 
+        -- cmp-cmdline and cmp-path were installed but unreachable: neither was
+        -- listed as a source and there was no cmdline setup at all.
+        cmp.setup.cmdline(":", {
+            mapping = cmp.mapping.preset.cmdline(),
+            sources = cmp.config.sources({
+                { name = 'path' },
+            }, {
+                { name = 'cmdline' },
+            }),
+        })
+
+        cmp.setup.cmdline({ "/", "?" }, {
+            mapping = cmp.mapping.preset.cmdline(),
+            sources = {
+                { name = 'buffer' },
+            },
+        })
+
         -- Organize imports, then format, both through one named client. gopls does
         -- this for Go and ruff for Python; keeping them on one helper means the two
         -- can never end up formatting through each other.
         local function organize_and_format(bufnr, client_name)
-            local params = vim.lsp.util.make_range_params(0, "utf-8")
+            local target = vim.lsp.get_clients({ bufnr = bufnr, name = client_name })[1]
+            if not target then
+                return
+            end
+            -- Take the encoding from the client that will actually receive this
+            -- request. Hardcoding utf-8 while the server negotiated utf-16 puts the
+            -- range in the wrong place on any line containing non-ASCII text.
+            local params = vim.lsp.util.make_range_params(0, target.offset_encoding)
             -- `diagnostics` is required by the spec. gopls tolerates it missing,
             -- ruff rejects the whole request with a parse error.
             params.context = { only = { "source.organizeImports" }, diagnostics = {} }
@@ -216,13 +243,14 @@ return {
             })
         end
 
+        -- No update_in_insert: it recomputes and redraws diagnostics on every
+        -- keystroke, and the default (false) is what upstream recommends.
         vim.diagnostic.config({
-            update_in_insert = true,
             float = {
                 focusable = false,
                 style = "minimal",
                 border = "rounded",
-                source = "always",
+                source = true,
                 header = "",
                 prefix = "",
             },

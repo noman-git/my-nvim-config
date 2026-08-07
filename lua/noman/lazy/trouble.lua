@@ -6,25 +6,27 @@ return {
                 icons = false,
             })
 
-            vim.keymap.set("n", "<leader>tt", function()
-                require("trouble").toggle()
-            end)
+            -- v3 mode names come from trouble/sources/: diagnostics, qf, lsp, ...
+            -- The old v2 names (workspace_diagnostics, document_diagnostics) resolve
+            -- to a mode with no source, so those views opened empty.
+            vim.keymap.set("n", "<leader>tt", "<cmd>Trouble diagnostics toggle<cr>",
+                { desc = "Toggle Diagnostics" })
+            vim.keymap.set("n", "<leader>tw", "<cmd>Trouble diagnostics toggle<cr>",
+                { desc = "Toggle Workspace Diagnostics" })
+            vim.keymap.set("n", "<leader>td", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
+                { desc = "Toggle Document Diagnostics" })
+            vim.keymap.set("n", "<leader>tq", "<cmd>Trouble qflist toggle<cr>",
+                { desc = "Toggle Quickfix" })
 
+            -- v3 renamed previous -> prev. These were also wired backwards: [t ran
+            -- next and ]t ran previous.
             vim.keymap.set("n", "[t", function()
-                require("trouble").next({skip_groups = true, jump = true});
-            end)
+                require("trouble").prev({ jump = true })
+            end, { silent = true, desc = "Previous Trouble item" })
 
             vim.keymap.set("n", "]t", function()
-                require("trouble").previous({skip_groups = true, jump = true});
-            end)
-            vim.keymap.set("n", "<leader>tw", function()
-                require("trouble").toggle("workspace_diagnostics") end, { desc = "Toggle Workspace Diagnostics" })
-
-            vim.keymap.set("n", "<leader>td", function()
-                require("trouble").toggle("document_diagnostics") end, { desc = "Toggle Document Diagnostics" })
-
-            vim.keymap.set("n", "<leader>tq", function()
-                require("trouble").toggle("quickfix") end, { desc = "Toggle Quickfix" })
+                require("trouble").next({ jump = true })
+            end, { silent = true, desc = "Next Trouble item" })
         end
     },
 }

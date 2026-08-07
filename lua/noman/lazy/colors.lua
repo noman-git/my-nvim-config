@@ -2,9 +2,6 @@
 function ColorMyPencils(color)
 	color = color or "rose-pine-moon"
 	vim.cmd.colorscheme(color)
-
-	vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-	vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
 end
 
 return {
@@ -15,8 +12,11 @@ return {
         priority = 1000, -- Ensure it loads first
         config = function()
             require('rose-pine').setup({
-                disable_background = true,
                 styles = {
+                    -- Replaces the deprecated disable_background. That option only
+                    -- cleared Normal, never NormalFloat, which is why this file used
+                    -- to hand-patch both highlights after loading the theme.
+                    transparency = true,
                     italic = false,
                 },
             })
@@ -24,4 +24,3 @@ return {
         end
     }
 }
-
