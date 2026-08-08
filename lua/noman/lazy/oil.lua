@@ -9,11 +9,6 @@ return {
             show_hidden = true,
         },
         keymaps = {
-            ["<C-h>"] = false,
-            ["<C-t>"] = false,
-            ["<C-s>"] = false,
-            ["<C-v>"] = { "actions.select", opts = { vertical = true } },
-            ["<C-x>"] = { "actions.select", opts = { horizontal = true } },
             ["q"] = { "actions.close", mode = "n" },
         },
     },
