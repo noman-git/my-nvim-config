@@ -2,10 +2,10 @@ return {
     "tpope/vim-fugitive",
     config = function()
         -- Global keymap for staging all changes
-        vim.keymap.set("n", "<leader>gs", vim.cmd.Git)
+        vim.keymap.set("n", "<leader>gs", vim.cmd.Git, { desc = "Git status" })
         vim.keymap.set("n", "<leader>ga", function()
             vim.cmd.Git("add .")
-        end)
+        end, { desc = "Git add all" })
 
         local Noman_Fugitive = vim.api.nvim_create_augroup("Noman_Fugitive", {})
 
@@ -38,8 +38,8 @@ return {
         })
 
         -- Keymaps for merge conflict resolution
-        vim.keymap.set("n", "gu", "<cmd>diffget //2<CR>")
-        vim.keymap.set("n", "gh", "<cmd>diffget //3<CR>")
+        vim.keymap.set("n", "gu", "<cmd>diffget //2<CR>", { desc = "Take left (target branch)" })
+        vim.keymap.set("n", "gh", "<cmd>diffget //3<CR>", { desc = "Take right (merged branch)" })
     end
 }
 

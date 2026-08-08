@@ -1,5 +1,5 @@
 vim.g.mapleader = " "
-vim.keymap.set("n", "<leader>fe", vim.cmd.Ex)
+vim.keymap.set("n", "<leader>fe", vim.cmd.Ex, { desc = "File explorer (netrw)" })
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
@@ -8,16 +8,16 @@ vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
-vim.keymap.set("n", "<leader>zig", "<cmd>LspRestart<cr>")
+vim.keymap.set("n", "<leader>zig", "<cmd>LspRestart<cr>", { desc = "Restart LSP" })
 
 -- greatest remap ever
-vim.keymap.set("x", "<leader>p", [["_dP]])
+vim.keymap.set("x", "<leader>p", [["_dP]], { desc = "Paste over without yanking" })
 
 -- next greatest remap ever : asbjornHaland
-vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
-vim.keymap.set("n", "<leader>Y", [["+Y]])
+vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]], { desc = "Yank to system clipboard" })
+vim.keymap.set("n", "<leader>Y", [["+Y]], { desc = "Yank line to system clipboard" })
 
-vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
+vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]], { desc = "Delete without yanking" })
 
 -- Global, not set on LspAttach: a buffer-local map only exists once the server
 -- has attached, and until then the builtins run silently. Builtin gd is a lexical
@@ -69,31 +69,31 @@ vim.keymap.set("n", "K", lsp_or("textDocument/hover", vim.lsp.buf.hover,
 
 vim.keymap.set("n", "Q", "<nop>")
 vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
-vim.keymap.set("n", "<leader>mp", "<cmd>MarkdownPreviewToggle<CR>")
+vim.keymap.set("n", "<leader>mp", "<cmd>MarkdownPreviewToggle<CR>", { desc = "Markdown preview" })
 
 vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
 vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
-vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
-vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
+vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz", { desc = "Next loclist item" })
+vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz", { desc = "Previous loclist item" })
 
-vim.keymap.set("v", "<leader>s", ":'<,'>s/\\%V<C-r><C-w>/<C-r><C-w>/gI<Left><Left><Left>")
-vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+vim.keymap.set("v", "<leader>s", ":'<,'>s/\\%V<C-r><C-w>/<C-r><C-w>/gI<Left><Left><Left>", { desc = "Replace word in selection" })
+vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Replace word in file" })
 
 -- Horizontal split
-vim.keymap.set('n', '<leader>sh', '<C-w>s', { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>sh', '<C-w>s', { noremap = true, silent = true, desc = 'Split horizontal' })
 -- Vertical split
-vim.keymap.set('n', '<leader>sv', '<C-w>v', { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>sv', '<C-w>v', { noremap = true, silent = true, desc = 'Split vertical' })
 
 -- Close current split
-vim.keymap.set('n', '<leader>sc', '<C-w>c', { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>sc', '<C-w>c', { noremap = true, silent = true, desc = 'Close split' })
 -- Close all except current
-vim.keymap.set('n', '<leader>so', '<C-w>o', { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>so', '<C-w>o', { noremap = true, silent = true, desc = 'Close other splits' })
 
 -- Zoom in on current split (maximize)
-vim.keymap.set('n', 'Zz', '<C-w>_ | <C-w>|', { noremap = true, silent = true })
+vim.keymap.set('n', 'Zz', '<C-w>_ | <C-w>|', { noremap = true, silent = true, desc = 'Maximize split' })
 
 -- Restore all splits to equal size
-vim.keymap.set('n', 'Zo', '<C-w>=', { noremap = true, silent = true })
+vim.keymap.set('n', 'Zo', '<C-w>=', { noremap = true, silent = true, desc = 'Equalize splits' })
 
 -- This is for creating a python env with name .venv and default global version
 vim.keymap.set("n", "<leader>pvc", ":!python3 -m venv .venv<CR>",
@@ -114,11 +114,11 @@ vim.keymap.set('n', '<leader>pva', function()
     end
 end, { desc = "Point the LSP at a virtual env" })
 
-vim.keymap.set( "n", "<leader>pe", ":!python3 %<CR>")
+vim.keymap.set("n", "<leader>pe", ":!python3 %<CR>", { desc = "Run file with python3" })
 
 vim.keymap.set("n", "<leader><leader>", function()
     vim.cmd("so")
-end)
+end, { desc = "Source current file" })
 
 -- Terminal mode: double-Esc to drop into normal mode (single Esc still reaches the TUI)
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
