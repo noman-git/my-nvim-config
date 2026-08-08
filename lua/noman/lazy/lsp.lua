@@ -5,6 +5,10 @@ return {
         -- resolve through GitHub's redirect.
         "mason-org/mason.nvim",
         "mason-org/mason-lspconfig.nvim",
+        -- Back with an actual job to do: mason-lspconfig's ensure_installed only
+        -- handles language servers, so conform's formatters need this to be
+        -- installed automatically on a fresh machine.
+        "WhoIsSethDaniel/mason-tool-installer.nvim",
         "hrsh7th/cmp-nvim-lsp",
         "hrsh7th/cmp-buffer",
         "hrsh7th/cmp-path",
@@ -34,6 +38,12 @@ return {
         require("fidget").setup({})
         require("mason-lspconfig").setup({
             ensure_installed = { "lua_ls", "ruff", "basedpyright", "jsonls", "yamlls", "gopls" },
+        })
+
+        -- Non-LSP tools, driven by conform.lua.
+        require("mason-tool-installer").setup({
+            ensure_installed = { "prettier", "shfmt" },
+            run_on_start = true,
         })
 
         -- Point the type checker at the project's own interpreter. Without this it
