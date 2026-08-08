@@ -6,6 +6,7 @@ return {
         spec = {
             { "<leader>a", group = "AI / Claude Code" },
             { "<leader>c", group = "Cloak" },
+            { "<leader>D", group = "Debug" },
             { "<leader>f", group = "Find" },
             { "<leader>g", group = "Git" },
             { "<leader>h", group = "Harpoon" },

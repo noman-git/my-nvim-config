@@ -36,7 +36,7 @@ return {
         })
 
         require("mason-tool-installer").setup({
-            ensure_installed = { "prettier", "shfmt" },
+            ensure_installed = { "prettier", "shfmt", "debugpy", "delve" },
             run_on_start = true,
         })
 
