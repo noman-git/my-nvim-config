@@ -54,14 +54,12 @@ autocmd('LspAttach', {
         -- same-named symbol in the current file, and says nothing about it.
         vim.keymap.set("n", "<leader>vws", function() vim.lsp.buf.workspace_symbol() end,
             vim.tbl_extend("force", opts, { desc = "Workspace symbols" }))
-        vim.keymap.set("n", "<leader>vd", function() vim.diagnostic.open_float() end,
-            vim.tbl_extend("force", opts, { desc = "Line diagnostics" }))
-        vim.keymap.set("n", "<leader>vca", function() vim.lsp.buf.code_action() end,
-            vim.tbl_extend("force", opts, { desc = "Code action" }))
-        vim.keymap.set("n", "<leader>vrr", function() vim.lsp.buf.references() end,
-            vim.tbl_extend("force", opts, { desc = "References" }))
-        vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end,
-            vim.tbl_extend("force", opts, { desc = "Rename symbol" }))
+        vim.keymap.set("n", "<leader>vf", function()
+            vim.lsp.buf.code_action({
+                context = { only = { "source.fixAll" }, diagnostics = {} },
+                apply = true,
+            })
+        end, vim.tbl_extend("force", opts, { desc = "Fix all auto-fixable issues" }))
         vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end,
             vim.tbl_extend("force", opts, { desc = "Signature help" }))
         -- No [d/]d here: nvim ships them (plus [D/]D for first/last) built on
