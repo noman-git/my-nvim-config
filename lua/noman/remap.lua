@@ -1,5 +1,5 @@
 vim.g.mapleader = " "
-vim.keymap.set("n", "<leader>fe", vim.cmd.Ex, { desc = "File explorer (netrw)" })
+vim.keymap.set("n", "<leader>fe", "<cmd>Oil<cr>", { desc = "File explorer (oil)" })
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
