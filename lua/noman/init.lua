@@ -60,8 +60,6 @@ autocmd('LspAttach', {
                 apply = true,
             })
         end, vim.tbl_extend("force", opts, { desc = "Fix all auto-fixable issues" }))
-        vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end,
-            vim.tbl_extend("force", opts, { desc = "Signature help" }))
         -- No [d/]d here: nvim ships them (plus [D/]D for first/last) built on
         -- vim.diagnostic.jump, pointing the right way round. Overriding them only
         -- reintroduced the inverted, deprecated goto_prev/goto_next pair.
