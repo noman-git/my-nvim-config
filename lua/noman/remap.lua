@@ -79,16 +79,6 @@ vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz", { desc = "Previous loclist 
 vim.keymap.set("v", "<leader>s", ":'<,'>s/\\%V<C-r><C-w>/<C-r><C-w>/gI<Left><Left><Left>", { desc = "Replace word in selection" })
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Replace word in file" })
 
--- Horizontal split
-vim.keymap.set('n', '<leader>sh', '<C-w>s', { noremap = true, silent = true, desc = 'Split horizontal' })
--- Vertical split
-vim.keymap.set('n', '<leader>sv', '<C-w>v', { noremap = true, silent = true, desc = 'Split vertical' })
-
--- Close current split
-vim.keymap.set('n', '<leader>sc', '<C-w>c', { noremap = true, silent = true, desc = 'Close split' })
--- Close all except current
-vim.keymap.set('n', '<leader>so', '<C-w>o', { noremap = true, silent = true, desc = 'Close other splits' })
-
 -- Zoom in on current split (maximize)
 vim.keymap.set('n', 'Zz', '<C-w>_ | <C-w>|', { noremap = true, silent = true, desc = 'Maximize split' })
 

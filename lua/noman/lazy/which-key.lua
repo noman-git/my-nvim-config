@@ -12,7 +12,6 @@ return {
             { "<leader>n", group = "Notifications" },
             { "<leader>p", group = "Python / format" },
             { "<leader>pv", group = "Python venv" },
-            { "<leader>s", group = "Search / splits" },
             { "<leader>t", group = "Trouble" },
             { "<leader>v", group = "LSP / help" },
             { "<leader>w", group = "Sessions" },
