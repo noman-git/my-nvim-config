@@ -10,11 +10,6 @@ return {
     -- "benlubas/image.nvim",
     -- dev = true,
     -- enabled = false,
-    -- The magick_cli processor shells out to the ImageMagick binary, so the magick
-    -- luarock is dead weight. Removing the explicit dependency is not enough on its
-    -- own: image.nvim ships a rockspec that declares magick, and lazy honours it by
-    -- setting build = "rockspec" and pulling in hererocks. build = false overrides
-    -- that.
     build = false,
     ft = { "markdown", "norg" },
     config = function()

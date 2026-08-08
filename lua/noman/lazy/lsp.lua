@@ -1,13 +1,8 @@
 return {
     "neovim/nvim-lspconfig",
     dependencies = {
-        -- mason moved to the mason-org org; the williamboman paths only still
-        -- resolve through GitHub's redirect.
         "mason-org/mason.nvim",
         "mason-org/mason-lspconfig.nvim",
-        -- Back with an actual job to do: mason-lspconfig's ensure_installed only
-        -- handles language servers, so conform's formatters need this to be
-        -- installed automatically on a fresh machine.
         "WhoIsSethDaniel/mason-tool-installer.nvim",
         "hrsh7th/cmp-nvim-lsp",
         "hrsh7th/cmp-buffer",
@@ -40,7 +35,6 @@ return {
             ensure_installed = { "lua_ls", "ruff", "basedpyright", "jsonls", "yamlls", "gopls" },
         })
 
-        -- Non-LSP tools, driven by conform.lua.
         require("mason-tool-installer").setup({
             ensure_installed = { "prettier", "shfmt" },
             run_on_start = true,
@@ -185,8 +179,6 @@ return {
                 })
         })
 
-        -- cmp-cmdline and cmp-path were installed but unreachable: neither was
-        -- listed as a source and there was no cmdline setup at all.
         cmp.setup.cmdline(":", {
             mapping = cmp.mapping.preset.cmdline(),
             sources = cmp.config.sources({
@@ -211,9 +203,6 @@ return {
             if not target then
                 return
             end
-            -- Take the encoding from the client that will actually receive this
-            -- request. Hardcoding utf-8 while the server negotiated utf-16 puts the
-            -- range in the wrong place on any line containing non-ASCII text.
             local params = vim.lsp.util.make_range_params(0, target.offset_encoding)
             -- `diagnostics` is required by the spec. gopls tolerates it missing,
             -- ruff rejects the whole request with a parse error.
@@ -253,8 +242,6 @@ return {
             })
         end
 
-        -- No update_in_insert: it recomputes and redraws diagnostics on every
-        -- keystroke, and the default (false) is what upstream recommends.
         vim.diagnostic.config({
             float = {
                 focusable = false,

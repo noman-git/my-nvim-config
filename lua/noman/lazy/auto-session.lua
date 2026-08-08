@@ -24,8 +24,6 @@ return {
       },
       -- Can also set some Telescope picker options
       -- For all options, see: https://github.com/nvim-telescope/telescope.nvim/blob/master/doc/telescope.txt#L112
-      -- Renamed from theme_conf, which now only works through a deprecation shim
-      -- that logs a warning.
       picker_opts = {
         border = true,
         -- layout_config = {

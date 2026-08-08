@@ -13,9 +13,6 @@ return {
         config = function()
             require('rose-pine').setup({
                 styles = {
-                    -- Replaces the deprecated disable_background. That option only
-                    -- cleared Normal, never NormalFloat, which is why this file used
-                    -- to hand-patch both highlights after loading the theme.
                     transparency = true,
                     italic = false,
                 },

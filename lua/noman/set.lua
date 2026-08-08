@@ -1,6 +1,4 @@
 vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
--- The pyenv path this used to point at does not exist; the venv that actually has
--- pynvim installed lives under ~/.virtualenvs/neovim.
 vim.g.python3_host_prog = vim.fn.expand("~/.virtualenvs/neovim/bin/python3")
 if vim.fn.has("unix") == 1 and os.getenv("SSH_CONNECTION") then
   -- remote session: use lemonade
