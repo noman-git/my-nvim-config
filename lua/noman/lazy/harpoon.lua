@@ -17,15 +17,15 @@ return {
             { desc = "Toggle Harpoon quick menu" })
 
         for idx = 1, 4 do
-            vim.keymap.set("n", "<M-" .. idx .. ">", function() harpoon:list():select(idx) end,
+            vim.keymap.set("n", "<leader>" .. idx, function() harpoon:list():select(idx) end,
                 { desc = "Harpoon jump to " .. idx })
             vim.keymap.set("n", "<leader>h" .. idx, function() harpoon:list():replace_at(idx) end,
                 { desc = "Harpoon set slot " .. idx })
         end
 
-        vim.keymap.set("n", "<M-]>", function() harpoon:list():next() end,
+        vim.keymap.set("n", "<leader>hn", function() harpoon:list():next() end,
             { desc = "Harpoon next" })
-        vim.keymap.set("n", "<M-[>", function() harpoon:list():prev() end,
+        vim.keymap.set("n", "<leader>hp", function() harpoon:list():prev() end,
             { desc = "Harpoon previous" })
     end
 }
