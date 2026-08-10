@@ -5,8 +5,9 @@ return {
         preset = "classic",
         spec = {
             { "<leader>a", group = "AI / Claude Code" },
-            { "<leader>c", group = "Cloak" },
+            { "<leader>c", group = "Cloak / CSV" },
             { "<leader>D", group = "Debug" },
+            { "<leader>q", group = "Database" },
             { "<leader>f", group = "Find" },
             { "<leader>g", group = "Git" },
             { "<leader>h", group = "Harpoon" },
