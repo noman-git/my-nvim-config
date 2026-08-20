@@ -32,7 +32,7 @@ return {
 
         require("fidget").setup({})
         require("mason-lspconfig").setup({
-            ensure_installed = { "lua_ls", "ruff", "basedpyright", "jsonls", "yamlls", "gopls" },
+            ensure_installed = { "lua_ls", "ruff", "basedpyright", "jsonls", "yamlls", "gopls", "texlab" },
         })
 
         require("mason-tool-installer").setup({

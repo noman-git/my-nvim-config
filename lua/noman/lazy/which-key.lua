@@ -8,6 +8,7 @@ return {
             { "<leader>c", group = "Cloak / CSV" },
             { "<leader>D", group = "Debug" },
             { "<leader>q", group = "Database" },
+            { "<leader>l", group = "LaTeX" },
             { "<leader>f", group = "Find" },
             { "<leader>g", group = "Git" },
             { "<leader>h", group = "Harpoon" },
