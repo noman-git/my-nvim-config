@@ -85,6 +85,11 @@ vim.keymap.set('n', 'Zz', '<C-w>_ | <C-w>|', { noremap = true, silent = true, de
 -- Restore all splits to equal size
 vim.keymap.set('n', 'Zo', '<C-w>=', { noremap = true, silent = true, desc = 'Equalize splits' })
 
+vim.keymap.set('n', '<C-Up>', '<cmd>resize +3<cr>', { silent = true, desc = 'Split taller' })
+vim.keymap.set('n', '<C-Down>', '<cmd>resize -3<cr>', { silent = true, desc = 'Split shorter' })
+vim.keymap.set('n', '<C-Left>', '<cmd>vertical resize -5<cr>', { silent = true, desc = 'Split narrower' })
+vim.keymap.set('n', '<C-Right>', '<cmd>vertical resize +5<cr>', { silent = true, desc = 'Split wider' })
+
 -- This is for creating a python env with name .venv and default global version
 vim.keymap.set("n", "<leader>pvc", ":!python3 -m venv .venv<CR>",
     { desc = "Create virtual environment in current directory" })
