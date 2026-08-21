@@ -85,10 +85,26 @@ vim.keymap.set('n', 'Zz', '<C-w>_ | <C-w>|', { noremap = true, silent = true, de
 -- Restore all splits to equal size
 vim.keymap.set('n', 'Zo', '<C-w>=', { noremap = true, silent = true, desc = 'Equalize splits' })
 
-vim.keymap.set('n', '<C-Up>', '<cmd>resize +3<cr>', { silent = true, desc = 'Split taller' })
-vim.keymap.set('n', '<C-Down>', '<cmd>resize -3<cr>', { silent = true, desc = 'Split shorter' })
-vim.keymap.set('n', '<C-Left>', '<cmd>vertical resize -5<cr>', { silent = true, desc = 'Split narrower' })
-vim.keymap.set('n', '<C-Right>', '<cmd>vertical resize +5<cr>', { silent = true, desc = 'Split wider' })
+-- Move the shared boundary in the direction pressed, the way dragging it does.
+-- A plain :resize always grows the current window, so the boundary would travel the
+-- wrong way whenever the cursor sits on the far side of it.
+local function nudge(dir)
+    return function()
+        local here = vim.fn.winnr()
+        if dir == "left" or dir == "right" then
+            local grow = (dir == "right") == (vim.fn.winnr("l") ~= here)
+            vim.cmd("vertical resize " .. (grow and "+5" or "-5"))
+        else
+            local grow = (dir == "down") == (vim.fn.winnr("j") ~= here)
+            vim.cmd("resize " .. (grow and "+3" or "-3"))
+        end
+    end
+end
+
+vim.keymap.set('n', '<C-Up>', nudge("up"), { silent = true, desc = 'Move split boundary up' })
+vim.keymap.set('n', '<C-Down>', nudge("down"), { silent = true, desc = 'Move split boundary down' })
+vim.keymap.set('n', '<C-Left>', nudge("left"), { silent = true, desc = 'Move split boundary left' })
+vim.keymap.set('n', '<C-Right>', nudge("right"), { silent = true, desc = 'Move split boundary right' })
 
 -- This is for creating a python env with name .venv and default global version
 vim.keymap.set("n", "<leader>pvc", ":!python3 -m venv .venv<CR>",
