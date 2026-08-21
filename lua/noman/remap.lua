@@ -88,7 +88,7 @@ vim.keymap.set('n', 'Zo', '<C-w>=', { noremap = true, silent = true, desc = 'Equ
 -- Move the shared boundary in the direction pressed, the way dragging it does.
 -- A plain :resize always grows the current window, so the boundary would travel the
 -- wrong way whenever the cursor sits on the far side of it.
-local function nudge(dir)
+local function nudge(dir, back_to_terminal)
     return function()
         local here = vim.fn.winnr()
         if dir == "left" or dir == "right" then
@@ -98,13 +98,24 @@ local function nudge(dir)
             local grow = (dir == "down") == (vim.fn.winnr("j") ~= here)
             vim.cmd("resize " .. (grow and "+3" or "-3"))
         end
+        -- Running a command from terminal mode leaves the window in terminal-normal
+        -- mode, which would need an `i` before typing into the program again.
+        if back_to_terminal then
+            vim.cmd("startinsert")
+        end
     end
 end
 
-vim.keymap.set('n', '<C-Up>', nudge("up"), { silent = true, desc = 'Move split boundary up' })
-vim.keymap.set('n', '<C-Down>', nudge("down"), { silent = true, desc = 'Move split boundary down' })
-vim.keymap.set('n', '<C-Left>', nudge("left"), { silent = true, desc = 'Move split boundary left' })
-vim.keymap.set('n', '<C-Right>', nudge("right"), { silent = true, desc = 'Move split boundary right' })
+-- Bound in terminal mode as well, so a split running a TUI can be resized without
+-- leaving terminal mode first. <Esc><Esc> is unreliable for that: <Esc> also begins
+-- terminal key codes, so ttimeoutlen (50ms) bounds the wait rather than timeoutlen,
+-- and a late second <Esc> lets a bare <Esc> reach the program.
+for key, dir in pairs({ ['<C-Up>'] = 'up', ['<C-Down>'] = 'down',
+                        ['<C-Left>'] = 'left', ['<C-Right>'] = 'right' }) do
+    local desc = 'Move split boundary ' .. dir
+    vim.keymap.set('n', key, nudge(dir, false), { silent = true, desc = desc })
+    vim.keymap.set('t', key, nudge(dir, true), { silent = true, desc = desc })
+end
 
 -- This is for creating a python env with name .venv and default global version
 vim.keymap.set("n", "<leader>pvc", ":!python3 -m venv .venv<CR>",
