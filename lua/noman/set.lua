@@ -8,8 +8,8 @@ if vim.fn.has("unix") == 1 and os.getenv("SSH_CONNECTION") then
     paste = { ["+"] = {"lemonade","paste"}, ["*"] = {"lemonade","paste"} },
     cache_enabled = 0,
   }
-else
-  -- local: use wl-clipboard
+elseif vim.fn.has("mac") == 0 then
+  -- local: use wl-clipboard (macOS falls through to nvim's built-in pbcopy/pbpaste)
   vim.g.clipboard = {
     name = "wl-clipboard",
     copy = { ["+"] = {"wl-copy"}, ["*"] = {"wl-copy"} },

@@ -18,7 +18,7 @@ return {
             vim.g.vimtex_view_method = "zathura"
         else
             vim.g.vimtex_view_method = "general"
-            vim.g.vimtex_view_general_viewer = "xdg-open"
+            vim.g.vimtex_view_general_viewer = vim.fn.has("mac") == 1 and "open" or "xdg-open"
             vim.g.vimtex_view_general_options = "@pdf"
         end
 

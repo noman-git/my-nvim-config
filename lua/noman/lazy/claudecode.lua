@@ -2,6 +2,9 @@ return {
     "coder/claudecode.nvim",
     dependencies = { "folke/snacks.nvim" },
     opts = {
+        -- macOS only: Claude Code inside nvim must not see the tmux it runs
+        -- in. Arch keeps the variables.
+        env = vim.fn.has("mac") == 1 and { TMUX = "", TERM_PROGRAM = "" } or nil,
         focus_after_send = true,
         diff_opts = {
             layout = "vertical",
