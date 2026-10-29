@@ -25,6 +25,17 @@ return {
             available[parser] = true
         end
 
+        local no_ts_indent = { python = true }
+
+        -- Built-in python indent puts continuation lines inside open brackets at
+        -- 2 * shiftwidth by default; PEP 8 style is one level.
+        vim.g.python_indent = {
+            open_paren = "shiftwidth()",
+            nested_paren = "shiftwidth()",
+            continue = "shiftwidth()",
+            closed_paren_align_last_line = false,
+        }
+
         -- Setup Treesitter features for a buffer
         local function setup_buffer(buf, ft)
             if not ft or ft == "" then return end
@@ -40,8 +51,12 @@ return {
             -- Start highlighting
             pcall(vim.treesitter.start, buf, lang)
 
-            -- Indentation (buffer-local)
-            vim.bo[buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+            -- Indentation (buffer-local). Python keeps nvim's built-in indent: the
+            -- treesitter one reads a half-typed line (missing ':') as an ERROR node
+            -- and indents every line after it wrong.
+            if not no_ts_indent[lang] then
+                vim.bo[buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+            end
 
             -- Folding (window-local) → only if window exists
             -- local wins = vim.fn.win_findbuf(buf)
