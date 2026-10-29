@@ -251,6 +251,15 @@ return {
                 header = "",
                 prefix = "",
             },
+            -- The builtin [d/]d (vim.diagnostic.jump) open no float by default,
+            -- unlike the old goto_next/goto_prev. `jump.float` is deprecated in
+            -- 0.12; on_jump is the replacement.
+            jump = {
+                on_jump = function(diagnostic, bufnr)
+                    if not diagnostic then return end
+                    vim.diagnostic.open_float({ bufnr = bufnr, scope = "cursor" })
+                end,
+            },
         })
     end
 }
