@@ -159,6 +159,13 @@ return {
         local cmp_select = { behavior = cmp.SelectBehavior.Select }
 
         cmp.setup({
+            -- Prefix-only matching. Fuzzy matching plus basedpyright's auto-import
+            -- list turned "top" into TCP_FASTOPEN and the rest of the socket module.
+            matching = {
+                disallow_fuzzy_matching = true,
+                disallow_partial_fuzzy_matching = true,
+                disallow_prefix_unmatching = true,
+            },
             snippet = {
                 expand = function(args)
                     vim.snippet.expand(args.body)
